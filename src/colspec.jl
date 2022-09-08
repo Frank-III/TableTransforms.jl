@@ -10,7 +10,7 @@ Union of types used to select a column.
 const Col = Union{Symbol,Integer,AbstractString}
 
 """
-    ColSpec  
+    ColSpec
 
 `ColSpec` is the parent type of all spec types used to select columns.
 The `ColSpec` abstract type together with the `Col` union type, the `colspec` function
@@ -30,7 +30,7 @@ end
 2 - Convert spec to ColSpec using the `colspec` function:
 
 ```julia
-MyTransform(spec, #= other arguments =#) = 
+MyTransform(spec, #= other arguments =#) =
   MyTransform(colspec(spec), #= other arguments =#)
 ```
 
@@ -46,11 +46,11 @@ function apply(transform::MyTransform, table)
 end
 ```
 
-If you need to create constructors that accept 
+If you need to create constructors that accept
 individual column selectors use the `Col` type. Example:
 
 ```julia
-MyTransform(cols::T...) where {T<:Col} = 
+MyTransform(cols::T...) where {T<:Col} =
   MyTransform(colspec(cols))
 ```
 """
@@ -136,6 +136,9 @@ struct NameSpec <: ColSpec
 end
 
 Base.show(io::IO, colspec::NameSpec) = print(io, colspec.names)
+# seems unnecessary
+Base.intersect(col1::NameSpec, col2::NameSpec) = NameSpec(intersect(col1.names,col2.names))
+Base.union(col1::NameSpec, col2::NameSpec) = NameSpec(union(col1.names,col2.names))
 
 colspec(names::AbstractVector{Symbol}) = NameSpec(names)
 colspec(names::AbstractVector{<:AbstractString}) = NameSpec(Symbol.(names))
