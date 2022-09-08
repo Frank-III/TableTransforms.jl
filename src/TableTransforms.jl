@@ -33,6 +33,7 @@ export
   Select,
   Reject,
   Rename,
+  SelectRename,
   StdNames,
   Sort,
   Sample,

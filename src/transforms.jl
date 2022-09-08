@@ -124,7 +124,7 @@ end
 function Base.show(io::IO, ::MIME"text/plain", transform::Transform)
   T = typeof(transform)
   print(io, "$(nameof(T)) transform")
-  
+
   fnames = fieldnames(T)
   len = length(fnames)
   for (i, field) in enumerate(fnames)
@@ -183,7 +183,7 @@ function revert(transform::Colwise, newtable, cache)
   # transformed columns
   cols  = Tables.columns(newtable)
   names = Tables.columnnames(cols)
-  
+
   # function to transform a single column
   function colfunc(i)
     n = names[i]
@@ -209,7 +209,7 @@ function reapply(transform::Colwise, table, cache)
   # retrieve column names and values
   cols  = Tables.columns(table)
   names = Tables.columnnames(cols)
-  
+
   # check that cache is valid
   @assert length(names) == length(cache) "invalid cache for table"
 
@@ -235,6 +235,7 @@ end
 
 include("transforms/select.jl")
 include("transforms/rename.jl")
+include("transforms/selectrename.jl")
 include("transforms/stdnames.jl")
 include("transforms/sort.jl")
 include("transforms/sample.jl")
